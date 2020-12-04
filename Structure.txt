@@ -1,0 +1,27 @@
+- Player
+--- has a name
+--- has Items
+--- is in Location
+------ gets description of Location
+------ gets list of Items in Location
+------ picks up Items from Location
+------ uses Items in Location
+------ goes through Exit
+- Location
+--- has a title
+--- has a description
+--- has Exits
+- Exit
+--- has a direction (short + long)
+--- has a start Location
+--- has a target Location
+- Item
+--- has a title
+--- has a description
+--- can be containers
+--- can trigger events
+- Character
+--- has a name
+--- speaks
+--- attacks
+--- leaves
