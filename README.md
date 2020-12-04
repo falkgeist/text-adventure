@@ -1,4 +1,4 @@
-# text-adventure
+# Text Adventure
 A text adventure gaming system created for the purpose of learning how to code in Java
 
 This text adventure is supposed to help me learn Java in a way that I feel motivated to do it.
