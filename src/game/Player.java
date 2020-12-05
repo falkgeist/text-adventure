@@ -22,166 +22,199 @@ public class Player {
     }
 
     // Commands
-    public void open(String action) {
-        if (action.contains("door")) {
-            openDoor();
-            this.choice();
-        } else {
-            System.out.println("Please specify, what you want to open.\n");
-            this.choice();
-        }
-    }
-
-    public void openDoor() {
-        Item door = null;
-        if (this.currentLocation.getItem("door") != null) {
-            door = this.currentLocation.getItem("door");
-            Item key = door.getKey();
-            if (door.isLocked() && this.inventory.contains(key)) {
-                door.unlock();
-                System.out.println("DYou open the door with the key.\n");
-                this.choice();
-            } else if (door.isLocked() && !this.inventory.contains(key)) {
-                System.out.println("You don't have a matching key.\n");
-                this.choice();
-            } else if (!door.isLocked()) {
-                goThrough(door);
-            }
-        } else {
-            System.out.println("This room has no door.\n");
-            this.choice();
-        }
-    }
-
-    public void pickUpKey(String action) {
-        if (action.contains("key")) {
-            Item key = this.currentLocation.getItem("key");
-            this.pickUpItem(key, "the");
-            this.choice();
-        }
-    }
-
-    public void lookAt(String action) {
-        if (action.contains("door")) {
-            lookAtDoor();
-        } else if (action.contains("room") || action.contains("around")) {
-            lookAtRoom();
-        } else if (action.contains("key") && action.contains("inventory")) {
-            lookAtKeyInInventory();
-        } else if (action.contains("key") && action.contains("room")) {
-            lookAtKeyInRoom();
-        } else {
-            System.out.println("Please specify, what you're looking at.\n");
-            this.choice();
-        }
-    }
-
-    public void lookAtDoor() {
-        Item door = this.currentLocation.getItem("door");
-        door.inspect();
-        this.choice();
-    }
-
-    public void lookAtRoom() {
-        this.currentLocation.printDescription();
-        this.choice();
-    }
-
-    public void lookAtKeyInInventory() {
-        Item key = this.getItem("key");
-        key.inspect();
-        this.choice();
-    }
-
-    public void lookAtKeyInRoom() {
-        Item key = this.currentLocation.getItem("key");
-        System.out.println(key.getLocDescription() + "\n");
-        this.choice();
-    }
-
-    public void search(String action) {
-        if (action.contains("room")) {
-            searchRoom();
-        } else {
-            System.out.println("Please specify, what you're searching.\n");
-            this.choice();
-        }
-    }
-
-    public void searchRoom() {
-        if (!this.currentLocation.items.isEmpty()) {
-            for (Item item : this.currentLocation.items) {
-                if (item.isHidden()) {
-                    item.find();
-                }
-            }
-        }
-    }
-
-    public void go(String action) {
-        if (action.contains("next room")) {
-            Item door = null;
-            if (this.currentLocation.getItem("door") != null) {
-                door = this.currentLocation.getItem("door");
-                if (door.isLocked()) {
-                    System.out.println("The door is locked.\n");
-                    this.choice();
-                } else if (!door.isLocked()) {
-                    goToLocation(door.getExit().getDestination());
-                }
-            }
-        } else {
-            System.out.println("Please specify, where you want to go.\n");
-            this.choice();
-        }
-    }
-
-    public void goThrough(Item door) {
-        Location destination = door.getExit().getDestination();
-        this.goToLocation(destination);
-        this.choice();
-    }
-
     public void choice() {
         System.out.println("What do you do?");
         String action = input.nextLine();
         System.out.println();
         if (action.contains("open")) {
             open(action);
-        } else if (action.contains("pick") && action.contains("up") || action.contains("take")) {
-            pickUpKey(action);
-        } else if (action.contains("inspect") || action.contains("look") || action.contains("check")) {
+        } else if (action.contains("pick") && action.contains("lock") && !action.contains("lockpick") || action.contains("pick") && action.contains("door")) {
+            lockpicking(action);
+        } else if (action.contains("pick") && action.contains("up")) {
+            pickUp(action);
+        } else if (action.contains("take")) {
+            take(action);
+        } else if (action.contains("find") || action.contains("search") || action.contains("inspect") || action.contains("look") || action.contains("check")) {
             lookAt(action);
-        } else if (action.contains("search")) {
-            search(action);
-        } else if (action.contains("go")) {
+        } else if (action.contains("go") || action.contains("leave") || action.contains("move to") || action.contains("walk")) {
             go(action);
         } else {
-            System.out.println("This action is not available.\n" +
-                    "Please choose another action.\n");
-            this.choice();
+            System.out.println("Please enter a valid action.\n");
         }
-    }
-
-    public void goToLocation(Location destination) {
-        this.currentLocation = destination;
-        this.currentLocation.printDescription();
-        if (this.currentLocation.getTitle().equals("Outside")){
+        if (this.currentLocation.getTitle().equals("outside")){
             System.out.println(
-                    "\n\n" +
-                            "You finished the adventure. Congratulations!\n" +
-                            "\n" +
-                            "///////////////////////////////////////////////////////\n"
+                    """
+                    
+                    You finished the adventure. Congratulations!
+
+                    ///////////////////////////////////////////////////////
+                    """
             );
         } else {
             this.choice();
         }
     }
 
+    public void open(String action) {
+        if (action.contains("door")) {
+            openDoor();
+        } else {
+            System.out.println("Please specify, what you want to open.\n");
+        }
+    }
+
+    public void openDoor() {
+        if (this.currentLocation.getItem("door") != null) {
+            Item door = this.currentLocation.getItem("door");
+            Item key = door.getKey();
+            if (door.isLocked() && this.inventory.contains(key)) {
+                door.unlock();
+                System.out.println("You open the door with the key.\n");
+            } else if (door.isLocked() && !this.inventory.contains(key)) {
+                System.out.println("You don't have a matching key.\n");
+            } else if (!door.isLocked()) {
+                System.out.println("You open the door.");
+            }
+        } else {
+            System.out.println("This room has no door.\n");
+        }
+    }
+
+    public void lockpicking(String action) {
+        if (this.currentLocation.getItem("door") != null || this.currentLocation.getItem("container") != null) {
+            Item lockedItem = this.currentLocation.getItem("door");
+            if (this.currentLocation.getItem("door") != null) {
+                lockedItem = this.currentLocation.getItem("door");
+            } else if (this.currentLocation.getItem("container") != null) {
+                lockedItem = this.currentLocation.getItem("container");
+            }
+            if (lockedItem.isLocked() && this.getItem("lockpick") != null) {
+                lockedItem.unlock();
+                System.out.println("You open the " + lockedItem.getName() + " with your lockpick.\n");
+            } else if (lockedItem.isLocked() && this.getItem("lockpick") == null) {
+                System.out.println("You don't have a lockpick.\n");
+            } else if (!lockedItem.isLocked()) {
+                System.out.println("The " + lockedItem.getName() + " is already unlocked.");
+            }
+        } else {
+            System.out.println("There is nothing locked in this room.\n");
+        }
+    }
+
+    public void pickUp(String action) {
+        if (action.contains("key")) {
+            pickUpKey(action);
+        } else if (action.contains("lockpick")) {
+            pickUpLockpicks(action);
+        } else {
+            System.out.println("You can't pick that up.\n");
+        }
+    }
+
+    public void take(String action) {
+        if (action.contains("key")) {
+            pickUpKey(action);
+        } else if (action.contains("lockpick")) {
+            pickUpLockpicks(action);
+        } else {
+            System.out.println("You can't take that.\n");
+        }
+    }
+
+    public void pickUpKey(String action) {
+        if (this.currentLocation.getItem("key") != null) {
+            Item key = this.currentLocation.getItem("key");
+            this.pickUpItem(key, "the");
+        } else {
+            System.out.println("You can't see a key that you could pick up.\n");
+        }
+    }
+
+    public void pickUpLockpicks(String action) {
+        if (this.currentLocation.getItem("lockpick") != null) {
+            Item lockpick = this.currentLocation.getItem("lockpick");
+            this.pickUpItem(lockpick, "the");
+        } else {
+            System.out.println("You can't see a lockpick that you could pick up.\n");
+        }
+    }
+
     public void pickUpItem(Item item, String article) {
-        this.inventory.add(item);
-        System.out.println("You pick up " + article + " " + item.getName() + ".\n");
-        this.currentLocation.items.remove(item);
+        if (!item.isHidden()) {
+            this.inventory.add(item);
+            System.out.println("You pick up " + article + " " + item.getName() + ".\n");
+            this.currentLocation.items.remove(item);
+            for (Item container : this.currentLocation.items) {
+                if (container.isContainer()) {
+                    container.contents.remove(item);
+                }
+            }
+        } else {
+            System.out.println("You don't see anything to pick up.");
+        }
+    }
+
+    public void lookAt(String action) {
+        if (action.contains("door")) {
+            Item door = this.currentLocation.getItem("door");
+            door.inspect();
+        } else if (action.contains("room") || action.contains("around")) {
+            this.currentLocation.printDescription();
+            searchRoom();
+        } else if (action.contains("key") && action.contains("inventory")) {
+            Item key = this.getItem("key");
+            key.inspect();
+        } else if (action.contains("key") && action.contains("room")) {
+            Item key = this.currentLocation.getItem("key");
+            System.out.println(key.getLocDescription() + "\n");
+        } else if (action.contains("bed")) {
+            Item bed = null;
+            if (this.currentLocation.getItem("bed") != null) {
+                bed = this.currentLocation.getItem("bed");
+                System.out.println(bed.getLocDescription() + "\n");
+                bed.getContents();
+            }
+        } else {
+            System.out.println("You don't find anything.\n");
+        }
+    }
+
+    public void searchRoom() {
+        if (!this.currentLocation.items.isEmpty()) {
+            int foundItems = 0;
+            for (Item item : this.currentLocation.items) {
+                if (item.isHidden()) {
+                    item.find();
+                    foundItems++;
+                }
+            }
+            if (foundItems == 0) {
+                System.out.println("You can't find anything in this room.");
+            }
+        } else {
+            System.out.println("There's nothing in this room.");
+        }
+    }
+
+    public void go(String action) {
+        if (action.contains("leave") || action.contains("next room") || action.contains("out") || action.contains("through") && action.contains("door")) {
+            Item door = null;
+            if (this.currentLocation.getItem("door") != null) {
+                door = this.currentLocation.getItem("door");
+                if (door.isLocked()) {
+                    System.out.println("The door is locked.\n");
+                } else if (!door.isLocked()) {
+                    goToLocation(door.getExit().getDestination());
+                }
+            }
+        } else {
+            System.out.println("You can't go there.\n");
+        }
+    }
+
+    public void goToLocation(Location destination) {
+        this.currentLocation = destination;
+        this.currentLocation.printDescription();
     }
 
     // Get item if its in inventory

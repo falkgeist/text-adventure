@@ -1,5 +1,9 @@
 package game;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Item {
     // Variables
     private String name;
@@ -12,6 +16,7 @@ public class Item {
     private String hiddenDescription;
     private Item key;
     private Exit exit;
+    List<Item> contents = new ArrayList<>();
 
     // Default constructor
     public Item() {
@@ -78,6 +83,43 @@ public class Item {
         this.setHidden(false);
         System.out.println(this.hiddenDescription + "\n");
         this.hiddenDescription = "";
+    }
+
+    public void addItem(Item item) {
+        if (this.isContainer()) {
+            contents.add(item);
+        }
+    }
+
+    public void addItems(Item[] items) {
+        if (this.isContainer()) {
+            contents.addAll(Arrays.asList(items));
+        }
+    }
+
+    public void getContents() {
+        if (this.isContainer()) {
+            for(Item item : contents) {
+                if (!item.isHidden()) {
+                    System.out.println(item.locDescription + "\n");
+                } else {
+                    item.find();
+                }
+            }
+        }
+    }
+
+    // Return item if its in container
+    public Item getItem(String identifier) {
+        if (this.isContainer()) {
+            for(Item item : contents) {
+                if (item != null && item.getIdentifier().equals(identifier)) {
+                    return item;
+                }
+            }
+            return null;
+        }
+        return null;
     }
 
     // Getters &  setters

@@ -24,14 +24,15 @@ public class Location {
     }
 
     public void printDescription() {
-        System.out.println(description + "\n");
+        System.out.println(description);
         if (!this.items.isEmpty()){
             for (Item item : this.items) {
                 if (item.getLocDescription() != "" && !item.isHidden()) {
-                    System.out.println(item.getLocDescription() + "\n");
+                    System.out.println(item.getLocDescription());
                 }
             }
         }
+        System.out.println();
     }
 
     public void addItem(Item item) {
