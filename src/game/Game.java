@@ -19,7 +19,7 @@ public class Game {
         bed1.addItem(key1);
         location1.addItem(key1);
         Item lockpicks1 = new Item("set of lockpicks", "lockpick", "A set of lockpicks in surprisingly good shape.", "There is a set of lockpicks behind a loose stone in the wall.");
-        lockpicks1.hide("Behind a loose stone in the wall you find a set of lockpicks");
+        lockpicks1.hide("Upon inspection of the wall you find a set of lockpicks hidden behind a loose stone.");
         location1.addItem(lockpicks1);
         Door door1 = new Door("door", "door", "The door is wooden and seems to be sturdy.", "On the other side is a door.", exitLoc1toLoc2);
         door1.setKey(key1);
@@ -32,9 +32,11 @@ public class Game {
 
         // Output
         System.out.println(
-                "///////////////////////////////////////////////////////\n" +
-                "\n" +
-                "You wake up. You can't remember who or where you are.\n"
+                """
+                ///////////////////////////////////////////////////////
+
+                You wake up. You can't remember who or where you are.
+                """
         );
         player1.goToLocation(location1);
         player1.choice();
