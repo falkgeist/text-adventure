@@ -28,10 +28,10 @@ public class Player {
         System.out.println("What do you do?");
         String action = input.nextLine();
         System.out.println();
-        if (action.contains("open")) {
+        if (action.contains("open") || action.contains("unlock")) {
             open(action);
-        } else if (action.contains("pick") && action.contains("lock") && !action.contains("lockpick") || action.contains("pick") && action.contains("door")) {
-            lockpicking(action);
+        } else if (action.contains("pick") && action.contains("lock") && !action.contains("lockpick") || action.contains("pick") && action.contains("door") && !action.contains("lockpick")) {
+            pickLock(action);
         } else if (action.contains("pick") && action.contains("up")) {
             pickUp(action);
         } else if (action.contains("take")) {
@@ -60,6 +60,8 @@ public class Player {
     public void open(String action) {
         if (action.contains("door")) {
             openDoor();
+        } else if (action.contains("door") && action.contains("unlock")) {
+            unlockDoor();
         } else {
             System.out.println("Please specify, what you want to open.\n");
         }
@@ -75,7 +77,24 @@ public class Player {
             } else if (door.isLocked() && !this.inventory.contains(key)) {
                 System.out.println("You don't have a matching key.\n");
             } else if (!door.isLocked()) {
-                System.out.println("You open the door.");
+                System.out.println("You open the door.\n");
+            }
+        } else {
+            System.out.println("This room has no door.\n");
+        }
+    }
+
+    public void unlockDoor() {
+        if (this.currentLocation.getItem("door") != null) {
+            Door door = this.currentLocation.getItem("door");
+            Item key = door.getKey();
+            if (door.isLocked() && this.inventory.contains(key)) {
+                door.unlock();
+                System.out.println("You unlock the door with the key.\n");
+            } else if (door.isLocked() && !this.inventory.contains(key)) {
+                System.out.println("You don't have a matching key.\n");
+            } else if (!door.isLocked()) {
+                System.out.println("The door is already unlocked.\n");
             }
         } else {
             System.out.println("This room has no door.\n");
