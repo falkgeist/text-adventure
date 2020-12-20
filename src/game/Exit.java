@@ -19,7 +19,7 @@ public class Exit {
     // String codes
     public static final String[] dirName =
             {
-                    "undefiniert",
+                    "undefined",
                     "north",
                     "south",
                     "east",
@@ -51,14 +51,10 @@ public class Exit {
                     "OUT"
             };
 
-    // Member variables
+    // Variables
     private Location destination;
     private int direction;
-
-    // Full name of direction eg SOUTHEAST
     private String directionName;
-
-    // Shortened version of direction eg SE
     private String directionShortName;
 
     // Default constructor
@@ -75,52 +71,39 @@ public class Exit {
     {
         this.direction = direction;
 
-        // Assign direction names
         if (direction <= dirName.length )
             this.directionName = dirName[this.direction];
         if (direction <= shortDirName.length )
             this.directionShortName = shortDirName[this.direction];
 
-        // Assign location
         this.destination = destination;
     }
 
-    // toString method
-    public String toString()
-    {
-        return directionName;
-    }
-
-    // Assigns direction name
+    // Getters & setters
     public void setDirectionName(String directionName)
     {
         this.directionName = directionName;
     }
 
-    // Returns direction name
     public String getDirectionName()
     {
         return directionName;
     }
 
-    // Assigns short direction name
     public void setDirectionShortName(String directionShortName)
     {
         this.directionShortName = directionShortName;
     }
 
-    // Returns short direction name
     public String getDirectionShortName()
     {
         return directionShortName;
     }
 
-    // Assigns destination
     public void setDestination(Location destination) {
         this.destination = destination;
     }
 
-    // Returns destination
     public Location getDestination() {
         return destination;
     }

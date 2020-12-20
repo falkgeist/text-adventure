@@ -9,6 +9,7 @@ import java.util.List;
 public class Location {
     private String title;
     private String description;
+    private boolean end;
     List<Item> items = new ArrayList<>();
 
     public Location() {
@@ -21,13 +22,20 @@ public class Location {
         this.description = description;
     }
 
-    public String toString() {
-        return title;
+    public boolean hasVisibleItems() {
+        if (!this.items.isEmpty()){
+            for (Item item : this.items) {
+                if (!item.isHidden()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public void printDescription() {
         System.out.println(description);
-        if (!this.items.isEmpty()){
+        if (this.hasVisibleItems()){
             for (Item item : this.items) {
                 if (!item.getLocDescription().equals("") && !item.isHidden()) {
                     System.out.println(item.getLocDescription());
@@ -38,7 +46,7 @@ public class Location {
     }
 
     public void addItem(Item item) {
-        items.add(item);
+        this.items.add(item);
     }
 
     public void addItems(Item[] items) {
@@ -46,9 +54,9 @@ public class Location {
     }
 
     // Return item if its in location
-    public <Type> Type getItem(String identifier) {
-        for(Item item : items) {
-            if (item != null && item.getIdentifier().equals(identifier)) {
+    public <Type> Type getItem(String itemCategory) {
+        for(Item item : this.items) {
+            if (item != null && item.getCategory().equals(itemCategory) && !item.isHidden()) {
                 return (Type) item;
             }
         }
@@ -69,5 +77,13 @@ public class Location {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isEnd() {
+        return end;
+    }
+
+    public void setEnd(boolean end) {
+        this.end = end;
     }
 }

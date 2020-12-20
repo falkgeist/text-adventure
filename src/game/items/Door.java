@@ -7,15 +7,15 @@ public class Door extends ItemLockable {
 
     public Door(){
         this.setName("");
-        this.setIdentifier("");
+        this.setCategory("");
         this.setDescription("");
         this.setLocDescription("");
     }
 
     // Constructor for unlocked doors
-    public Door(String name, String identifier, String description, String locDescription, Exit exit) {
+    public Door(String name, String category, String description, String locDescription, Exit exit) {
         this.setName(name);
-        this.setIdentifier(identifier);
+        this.setCategory(category);
         this.setDescription(description);
         this.setLocDescription(locDescription);
         this.setExit(exit);
