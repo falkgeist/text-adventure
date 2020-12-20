@@ -33,6 +33,17 @@ public class Location {
         return false;
     }
 
+    public boolean hasVisibleItems() {
+        if (!this.items.isEmpty()){
+            for (Item item : this.items) {
+                if (!item.isHidden()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void printDescription() {
         System.out.println(description);
         if (this.hasVisibleItems()){
