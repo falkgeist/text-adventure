@@ -29,7 +29,7 @@ public class Location {
         System.out.println(description);
         if (!this.items.isEmpty()){
             for (Item item : this.items) {
-                if (item.getLocDescription().equals("") && !item.isHidden()) {
+                if (!item.getLocDescription().equals("") && !item.isHidden()) {
                     System.out.println(item.getLocDescription());
                 }
             }
