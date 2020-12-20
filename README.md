@@ -1,53 +1,101 @@
 # Text Adventure
-A text adventure gaming system created for the purpose of learning how to code in Java
+A text adventure (gaming system) created for the purpose of learning how to code in Java.
 
-This text adventure is supposed to help me learn Java in a way that I feel motivated to do it.
+This text adventure is supposed to help me learn Java in a way that I feel motivated with.
 
-The core concepts:
+## The core concepts:
 
-# Player
+### Player
 The Player is the protagonist, the "you" that walks through the locations, picks up items, fights monsters, talks with people (in future versions).
 
-I thought of the following parameters in the beginning:
-- has a name
-- has Items
-- is in Location
--- gets description of Location
--- gets list of Items in Location
--- picks up Items from Location
--- uses Items in Location
--- goes through Exit
+Attributes:
+(- Name)
+- Inventory (items)
+- Current location
+- Current action
 
-# Location
-Locations are the rooms (or later maybe 'map tiles') that the player traverses.
+Available methods:
+- get description of Location
+- get list of Items in Location
+- pick up Items from Location
+- use Items in Location
+- go through Exit
+- etc.
 
-The following concepts came up in the first brainstorm:
-- has a title
-- has a description
-- has Exits
+### Location
+Locations are the rooms (or maybe 'map tiles') that the player traverses.
 
-# Exit
+Attributes:
+- Title
+- Description
+- End (y/n)
+- Items
+
+Available methods:
+none
+
+### Exit
 Exits are simply the directions a player can move in when leaving a location. This concept was taken more or less from https://www.javacoffeebreak.com/text-adventure/.
 
-These were my first ideas for Exits:
-- has a direction (short + long)
-- has a start Location
-- has a target Location
+Attributes:
+- Direction name
+- Long direction name
+- Destination
 
-# Items
+Available methods:
+none
+
+### Item
 Items are any objects that can exist in the game world. For now there's only doors and a key, but I was thinking about anything that is more than just for decoration.
 
-Basic ideas:
-- has a title
-- has a description
-- can be containers
-- can trigger events
+Attributes:
+- Title
+- Description
 
-# Character
-This is a future concept, not yet implemented. But in general, this will be any enemy or NPC.
+Available methods:
+- Inspect
+- Hide
+- Find
 
-Basic ideas:
-- has a name
-- speaks
-- attacks
-- leaves
+#### Lockable
+NEW: This is the parent class for doors and containers, essentially just making the item lockable.
+
+Attributes:
+- Locked (y/n)
+- Key
+
+Available methods:
+- Lock
+- Unlock
+
+#### Door
+NEW: Doors are also Items, but with a designated Exit.
+
+Attributes:
+- Exit
+
+Available methods:
+none
+
+#### Container
+NEW: Containers are Items, that can contain Items.
+
+Attributes:
+- Items
+
+Available methods:
+- add Item(s)
+- remove Item(s)
+- show contents
+- get certain Item
+
+### Character
+This is a future concept, not yet implemented. But in general, this could be any enemy or NPC.
+
+Attributes:
+(- Name)
+
+Available methods:
+(- speaks)
+(- attacks)
+(- leaves)
