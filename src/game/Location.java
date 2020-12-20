@@ -1,5 +1,7 @@
 package game;
 
+import game.items.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +29,7 @@ public class Location {
         System.out.println(description);
         if (!this.items.isEmpty()){
             for (Item item : this.items) {
-                if (item.getLocDescription() != "" && !item.isHidden()) {
+                if (item.getLocDescription().equals("") && !item.isHidden()) {
                     System.out.println(item.getLocDescription());
                 }
             }
@@ -44,10 +46,10 @@ public class Location {
     }
 
     // Return item if its in location
-    public Item getItem(String identifier) {
+    public <Type> Type getItem(String identifier) {
         for(Item item : items) {
             if (item != null && item.getIdentifier().equals(identifier)) {
-                return item;
+                return (Type) item;
             }
         }
         return null;

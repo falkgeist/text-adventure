@@ -1,5 +1,7 @@
 package game;
 
+import game.items.*;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +67,7 @@ public class Player {
 
     public void openDoor() {
         if (this.currentLocation.getItem("door") != null) {
-            Item door = this.currentLocation.getItem("door");
+            Door door = this.currentLocation.getItem("door");
             Item key = door.getKey();
             if (door.isLocked() && this.inventory.contains(key)) {
                 door.unlock();
@@ -80,15 +82,23 @@ public class Player {
         }
     }
 
-    public void lockpicking(String action) {
-        if (this.currentLocation.getItem("door") != null || this.currentLocation.getItem("container") != null) {
-            Item lockedItem = this.currentLocation.getItem("door");
+    public void pickLock(String action) {
+        boolean isLocked = false;
+        for (Item item : this.currentLocation.items) {
+            if (item instanceof ItemLockable && ((ItemLockable) item).isLocked()) {
+                isLocked = true;
+                break;
+            }
+        }
+        if (isLocked) {
+            ItemLockable lockedItem = null;
+            // Select door or container
             if (this.currentLocation.getItem("door") != null) {
                 lockedItem = this.currentLocation.getItem("door");
             } else if (this.currentLocation.getItem("container") != null) {
                 lockedItem = this.currentLocation.getItem("container");
             }
-            if (lockedItem.isLocked() && this.getItem("lockpick") != null) {
+            if (this.getItem("lockpick") != null) {
                 lockedItem.unlock();
                 System.out.println("You open the " + lockedItem.getName() + " with your lockpick.\n");
             } else if (lockedItem.isLocked() && this.getItem("lockpick") == null) {
@@ -145,8 +155,8 @@ public class Player {
             System.out.println("You pick up " + article + " " + item.getName() + ".\n");
             this.currentLocation.items.remove(item);
             for (Item container : this.currentLocation.items) {
-                if (container.isContainer()) {
-                    container.contents.remove(item);
+                if (container instanceof Container) {
+                    ((Container) container).removeItem(item);
                 }
             }
         } else {
@@ -156,7 +166,7 @@ public class Player {
 
     public void lookAt(String action) {
         if (action.contains("door")) {
-            Item door = this.currentLocation.getItem("door");
+            Door door = this.currentLocation.getItem("door");
             door.inspect();
         } else if (action.contains("room") || action.contains("around")) {
             this.currentLocation.printDescription();
@@ -168,11 +178,12 @@ public class Player {
             Item key = this.currentLocation.getItem("key");
             System.out.println(key.getLocDescription() + "\n");
         } else if (action.contains("bed")) {
-            Item bed = null;
             if (this.currentLocation.getItem("bed") != null) {
-                bed = this.currentLocation.getItem("bed");
+                Item bed = this.currentLocation.getItem("bed");
                 System.out.println(bed.getLocDescription() + "\n");
-                bed.getContents();
+                if (bed instanceof Container) {
+                    ((Container) bed).getContents();
+                }
             }
         } else {
             System.out.println("You don't find anything.\n");
@@ -198,7 +209,7 @@ public class Player {
 
     public void go(String action) {
         if (action.contains("leave") || action.contains("next room") || action.contains("out") || action.contains("through") && action.contains("door")) {
-            Item door = null;
+            Door door;
             if (this.currentLocation.getItem("door") != null) {
                 door = this.currentLocation.getItem("door");
                 if (door.isLocked()) {
