@@ -5,21 +5,22 @@ This text adventure is supposed to help me learn Java in a way that I feel motiv
 
 ## The core concepts:
 
+(List items in brackets are not implemented [yet?])
 ### Player
 The Player is the protagonist, the "you" that walks through the locations, picks up items, fights monsters, talks with people (in future versions).
 
 Attributes:
-(- Name)
+- (Name)
 - Inventory (items)
 - Current location
 - Current action
 
 Available methods:
-- get description of Location
-- get list of Items in Location
-- pick up Items from Location
-- use Items in Location
-- go through Exit
+- Get description of Location
+- Get list of Items in Location
+- Pick up Items from Location
+- (Use Items in Location)
+- Go through Exit
 - etc.
 
 ### Location
@@ -84,18 +85,18 @@ Attributes:
 - Items
 
 Available methods:
-- add Item(s)
-- remove Item(s)
-- show contents
-- get certain Item
+- Add Item(s)
+- Remove Item(s)
+- Show contents
+- Get certain Item
 
 ### Character
 This is a future concept, not yet implemented. But in general, this could be any enemy or NPC.
 
 Attributes:
-(- Name)
+- (Name)
 
 Available methods:
-(- speaks)
-(- attacks)
-(- leaves)
+- (Speaks)
+- (Attacks)
+- (Leaves)
