@@ -1,11 +1,9 @@
 package game.items;
 
-import game.Exit;
-
 public class Item {
     // Variables
     private String name;
-    private String identifier;
+    private String category;
     private String description;
     private String locDescription;
     private boolean hidden = false;
@@ -14,15 +12,15 @@ public class Item {
     // Default constructor
     public Item() {
         this.setName("");
-        this.setIdentifier("");
+        this.setCategory("");
         this.setDescription("");
         this.setLocDescription("");
     }
 
     // Constructor
-    public Item(String name, String identifier, String description, String locDescription) {
+    public Item(String name, String category, String description, String locDescription) {
         this.setName(name);
-        this.setIdentifier(identifier);
+        this.setCategory(category);
         this.setDescription(description);
         this.setLocDescription(locDescription);
     }
@@ -54,12 +52,12 @@ public class Item {
         this.name = name;
     }
 
-    public String getIdentifier() {
-        return identifier;
+    public String getCategory() {
+        return category;
     }
 
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getDescription() {

@@ -1,7 +1,5 @@
 package game.items;
 
-import game.Exit;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,15 +9,15 @@ public class Container extends ItemLockable {
 
     public Container(){
         this.setName("");
-        this.setIdentifier("");
+        this.setCategory("");
         this.setDescription("");
         this.setLocDescription("");
     }
 
     // Constructor for container
-    public Container(String name, String identifier, String description, String locDescription) {
+    public Container(String name, String category, String description, String locDescription) {
         this.setName(name);
-        this.setIdentifier(identifier);
+        this.setCategory(category);
         this.setDescription(description);
         this.setLocDescription(locDescription);
     }
@@ -53,7 +51,7 @@ public class Container extends ItemLockable {
     // Return item if its in container
     public Item getItem(String identifier) {
         for(Item item : contents) {
-            if (item != null && item.getIdentifier().equals(identifier)) {
+            if (item != null && item.getCategory().equals(identifier)) {
                 return item;
             }
         }

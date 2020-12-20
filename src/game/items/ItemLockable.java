@@ -1,7 +1,5 @@
 package game.items;
 
-import game.items.Item;
-
 public class ItemLockable extends Item {
     // Variables
     boolean locked;
